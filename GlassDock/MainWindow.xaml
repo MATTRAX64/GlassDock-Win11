@@ -1,0 +1,34 @@
+<Window x:Class="GlassDock.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" UseLayoutRounding="True" SnapsToDevicePixels="True" Title="GlassDock" Width="1000" Height="76" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="True">
+ <Window.Resources>
+  <Style TargetType="Button"><Setter Property="ToolTipService.Placement" Value="Custom"/><Setter Property="ToolTipService.VerticalOffset" Value="-8"/><Setter Property="ToolTipService.InitialShowDelay" Value="600"/><Setter Property="Foreground" Value="#24344B"/><Setter Property="Background" Value="Transparent"/><Setter Property="BorderBrush" Value="Transparent"/><Setter Property="Padding" Value="8"/><Setter Property="Margin" Value="3,0"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="Background" Value="{DynamicResource DockHover}"/><Setter Property="BorderBrush" Value="Transparent"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+ </Window.Resources>
+ <Border x:Name="GlassSurface" CornerRadius="18" BorderThickness="1" BorderBrush="#B5FFFFFF" Margin="8" Padding="14,0"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#E0F3F8FF" Offset="0"/><GradientStop Color="#C5CDDAF1" Offset="1"/></LinearGradientBrush></Border.Background><Border.Effect><DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.3"/></Border.Effect>
+  <Grid x:Name="DockLayout" SizeChanged="DockLayoutChanged">
+   <Button x:Name="StartButton" Width="46" Height="46" Padding="10" Panel.ZIndex="2" FocusVisualStyle="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenStart"><Grid x:Name="WindowsLogo" Width="24" Height="24"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Rectangle Fill="#149FEF" Margin="0,0,1,1"/><Rectangle Grid.Column="1" Fill="#149FEF" Margin="1,0,0,1"/><Rectangle Grid.Row="1" Fill="#149FEF" Margin="0,1,1,0"/><Rectangle Grid.Row="1" Grid.Column="1" Fill="#149FEF" Margin="1,1,0,0"/></Grid></Button>
+   <ScrollViewer x:Name="IconViewport" Height="46" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" CanContentScroll="False" PanningMode="HorizontalOnly" ClipToBounds="True" PreviewMouseWheel="ScrollDockApps"><StackPanel x:Name="ItemsPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"/></ScrollViewer>
+   <StackPanel x:Name="SystemButtons" SizeChanged="DockLayoutChanged" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+<Button x:Name="HiddenTrayButton" Content="&#xE70E;" FontFamily="Segoe MDL2 Assets" FontSize="12" Click="OpenHiddenTray"/>
+<Button Click="OpenQuickSettings"><StackPanel Orientation="Horizontal" VerticalAlignment="Center"><Grid Margin="3"><TextBlock x:Name="NetworkStatusIcon" Text="&#xE701;" FontFamily="Segoe Fluent Icons" FontSize="17"/><Path x:Name="NetworkDisconnectedSlash" Data="M1,1 L17,17" Stroke="{Binding Foreground,ElementName=NetworkStatusIcon}" StrokeThickness="1.7" IsHitTestVisible="False" Visibility="Collapsed"/></Grid><TextBlock x:Name="VolumeStatusIcon" Text="&#xE767;" FontFamily="Segoe Fluent Icons" FontSize="17" Margin="5,3"/><Grid x:Name="BatteryStatusGroup" Width="26" Height="16" Margin="5,3" VerticalAlignment="Center"><Border x:Name="BatteryOutline" Width="22" Height="14" HorizontalAlignment="Left" BorderThickness="1.2" CornerRadius="4" Padding="2"><Border x:Name="BatteryFill" HorizontalAlignment="Left" Width="14" CornerRadius="1"/></Border><Border Width="2" Height="5" Background="{Binding BorderBrush,ElementName=BatteryOutline}" HorizontalAlignment="Right" CornerRadius="1"/><Path x:Name="BatteryBolt" Data="M6,0 L2,8 L5,8 L4,15 L10,5 L7,5 Z" Fill="White" Stroke="#475569" StrokeThickness="0.7" Width="10" Height="16" Margin="-4,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/></Grid><TextBlock x:Name="BatteryText" Visibility="Collapsed"/></StackPanel></Button>
+<Button x:Name="ClockButton" Focusable="False" Click="OpenCalendar" Padding="6" FocusVisualStyle="{x:Null}"><StackPanel VerticalAlignment="Center" Margin="3,0,0,0"><TextBlock x:Name="ClockText" FontSize="14" TextAlignment="Right"/><TextBlock x:Name="DateText" FontSize="12" Opacity="0.9" TextAlignment="Right"/></StackPanel></Button>
+</StackPanel>
+  </Grid>
+ </Border>
+</Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
