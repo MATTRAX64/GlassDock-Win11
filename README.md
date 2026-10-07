@@ -4,6 +4,8 @@ Windows 11 · v1.1.0
 
 [Français](#language-0) · [English](#language-1) · [Español](#language-2) · [Deutsch](#language-3) · [Русский](#language-4) · [日本語](#language-5)
 
+![img of the dock](GlassDock-apercu.png)
+
 ---
 
 <a id="language-0"></a>
