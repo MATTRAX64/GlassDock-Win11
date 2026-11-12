@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "Microsoft Store",
+    "Path": "shell:AppsFolder\\Microsoft.WindowsStore_8wekyb3d8bbwe!App",
+    "IconPath": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsStore_22608.1401.5.0_x64__8wekyb3d8bbwe\\Assets\\AppTiles\\StoreAppList.targetsize-48_altform-unplated.png",
+    "Children": null
+  },
+  {
+    "Name": "Claude",
+    "Path": "shell:AppsFolder\\Claude_pzs8sxrjxfjjc!Claude",
+    "IconPath": "C:\\Program Files\\WindowsApps\\Claude_2.19675.0.0_x64__pzs8sxrjxfjjc\\Assets\\Square44x44Logo.png",
+    "Children": null
+  },
+  {
+    "Name": "ChatGPT",
+    "Path": "shell:AppsFolder\\OpenAI.Codex_2p2nqsd0c76g0!App",
+    "IconPath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.930.4958.0_x64__2p2nqsd0c76g0\\assets\\Square44x44Logo.png",
+    "Children": null
+  }
+]
