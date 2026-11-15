@@ -24,7 +24,6 @@ public partial class MainWindow
     long suppressTrayClickUntil;
     IReadOnlyList<NativeTray.TrayIcon> traySnapshot = [];
     Popup? trayLoadingPopup;
-    DateTimeOffset lastTrayRefresh;
     string TraySnapshotPath => Path.Combine(Path.GetDirectoryName(savePath)!, "tray-icons.json");
     private sealed record StoredTrayIcon(string Name, int Occurrence, byte[]? Png);
 
@@ -32,20 +31,6 @@ public partial class MainWindow
     {
         if (Environment.GetCommandLineArgs().Any(arg => arg == "--self-test" || arg.StartsWith("--test-", StringComparison.Ordinal))) return;
         traySnapshot = ReadTraySnapshot();
-        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        timer.Tick += async (_, _) =>
-        {
-            if (!IsVisible || !replacing || dragging || nativeTrayAccessInProgress
-                || hiddenTrayPopup?.IsOpen == true || fullScreenSuppressed
-                || IsSystemFlyoutOpen || IsShellPanelOpen || folderWindow?.IsVisible == true
-                || settingsWindow?.IsVisible == true || NativeTray.IsOverflowVisible()
-                || !NativeTray.HasInputBeenIdle(1200)
-                || DateTimeOffset.UtcNow - lastTrayRefresh < TimeSpan.FromSeconds(35)) return;
-            lastTrayRefresh = DateTimeOffset.UtcNow;
-            await RefreshTrayIconsAsync(HiddenTrayButton, false);
-        };
-        timer.Start();
-        Closed += (_, _) => timer.Stop();
     }
 
     IReadOnlyList<NativeTray.TrayIcon> ReadTraySnapshot()
@@ -129,18 +114,12 @@ public partial class MainWindow
             return;
         }
         var anchor = sender as FrameworkElement ?? HiddenTrayButton;
-        if (traySnapshot.Count > 0)
-        {
-            ShowHiddenTrayPopup(anchor, traySnapshot);
-            return;
-        }
-
-        ShowHiddenTrayPopup(anchor, [], "Chargement des icônes…");
+        ShowHiddenTrayPopup(anchor, traySnapshot, traySnapshot.Count == 0 ? "Chargement des icônes…" : null);
         trayLoadingPopup = hiddenTrayPopup;
         if (nativeTrayAccessInProgress) return;
         var loading = trayLoadingPopup;
         var result = await RefreshTrayIconsAsync(anchor, false);
-        if (!result.Success && IsLoaded && IsVisible && loading?.IsOpen == true && ReferenceEquals(loading, hiddenTrayPopup))
+        if (!result.Success && traySnapshot.Count == 0 && IsLoaded && IsVisible && loading?.IsOpen == true && ReferenceEquals(loading, hiddenTrayPopup))
             ShowHiddenTrayPopup(anchor, [], result.Detail);
     }
 
@@ -282,7 +261,6 @@ public partial class MainWindow
     async Task<NativeTray.Result> RefreshTrayIconsAsync(FrameworkElement anchor, bool showPopup)
     {
         if (nativeTrayAccessInProgress) return new(false, IntPtr.Zero, 0, "Lecture des icônes en cours.");
-        lastTrayRefresh = DateTimeOffset.UtcNow;
         var foreground = Native.GetForegroundWindow();
         BeginTrayOperation(out var resumeTimer, showPopup);
         try
